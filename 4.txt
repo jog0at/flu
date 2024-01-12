@@ -1,0 +1,62 @@
+Quiz App
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(
+        title: Text("Quiz App",
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        ),
+        ),
+      ),
+      body: QuizPage(),
+    ),
+  )
+  );
+}
+
+class Question{
+  final String text;
+  final String answer;
+  Question({required this.text,required this.answer});
+}
+class QuizPage extends StatefulWidget{
+  @override
+  State<QuizPage> createState() => _QuizPageState();
+}
+
+class _QuizPageState extends State<QuizPage>{
+  int index=0,score=0;
+
+  List<Question> questions= [
+    Question(text: "Q1",answer: "False"),
+    Question(text: "Q2", answer: "True"),
+    Question(text: "Q3", answer: "False"),
+
+  ];
+  void checkAnswer(String ans)=> setState(()=> score+= ans==questions[index++].answer? 1: 0);
+
+  @override
+  Widget build(BuildContext context)=>Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Center(child: Text(index<questions.length?questions[index].text:"END",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25.0,
+          ),),),),
+        if(index<questions.length)
+          for(var ans in ["True","False"])
+            ElevatedButton(onPressed: ()=>checkAnswer(ans), child: Text(ans)),
+        SizedBox(height: 100.0,),
+        for(var text in['Your Score','$score'])
+          Padding(padding: EdgeInsets.all(30.0),child: Center(child: Text(text,style: TextStyle(fontSize: 30.0),),),),
+
+       ],
+    );
+
+
+}
